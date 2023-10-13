@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { getTodos } from './services/todos';
+import notification from '@utils/notification';
+import { getTodos } from '@services/todos';
 
 type Todo = {
   userId: number;
@@ -22,6 +23,7 @@ export default function useTodos() {
       return todo;
     });
 
+    notification('Todo status updated successfully.');
     setTodos(newTodos);
   };
 
@@ -40,24 +42,38 @@ export default function useTodos() {
   const removeTodo = (id: number) => () => {
     const newTodos = todos.filter((todo) => todo.id !== id);
 
+    notification('Todo removed successfully.', 'error');
     setTodos(newTodos);
   };
 
-  const getTodoList = async () => {
+  const refetch = async () => {
     setLoading(true);
     const list = await getTodos();
+
+    if (!list.length) {
+      notification('Todo list is empty.', 'warning');
+      setLoading(false);
+
+      return;
+    }
+
+    notification(
+      `Todo list loaded successfully. ${list.length} items found.`,
+      'success'
+    );
 
     setTodos(list);
     setLoading(false);
   };
 
   useEffect(() => {
-    getTodoList();
+    refetch();
   }, []);
 
   return {
     todos,
     loading,
+    refetch,
     toggleTodo,
     removeTodo,
     updateTodoTitle,
