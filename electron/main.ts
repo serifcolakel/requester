@@ -34,9 +34,13 @@ const { VITE_DEV_SERVER_URL } = process.env;
 
 function createWindow() {
   win = new BrowserWindow({
-    icon: path.join(process.env.VITE_PUBLIC, 'electron-vite.animate.svg'),
     width: 1200,
     height: 800,
+    minHeight: 600,
+    minWidth: 800,
+    fullscreenable: true,
+    movable: true,
+    title: 'Vite Electron',
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },
@@ -46,6 +50,7 @@ function createWindow() {
   win.webContents.on('did-finish-load', () => {
     win?.webContents.send('main-process-message', new Date().toLocaleString());
   });
+  app.setBadgeCount(15);
 
   if (VITE_DEV_SERVER_URL) {
     win.loadURL(VITE_DEV_SERVER_URL);
