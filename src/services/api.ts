@@ -1,4 +1,5 @@
 import axios, { AxiosError } from 'axios';
+import notification from '@utils/notification';
 
 const cancelToken = axios.CancelToken.source();
 
@@ -24,7 +25,11 @@ export const get = async <TResponse>(url: string): Promise<TResponse> => {
 
     return response.data;
   } catch (error) {
-    window.console.error(error);
+    const message = (error as AxiosError<{ message: string }>).response?.data
+      ?.message;
+
+    notification(`Error while fetching ${url}. ${message ?? ''}`, 'error');
+
     throw error;
   }
 };
@@ -38,7 +43,11 @@ export const post = async <TRequest, TResponse>(
 
     return response.data;
   } catch (error) {
-    window.console.error(error);
+    const message = (error as AxiosError<{ message: string }>).response?.data
+      ?.message;
+
+    notification(`Error while posting ${url}. ${message ?? ''}`, 'error');
+
     throw error;
   }
 };
@@ -51,7 +60,11 @@ export const axiosDelete = async <TResponse>(
 
     return response.data;
   } catch (error) {
-    window.console.error(error);
+    const message = (error as AxiosError<{ message: string }>).response?.data
+      ?.message;
+
+    notification(`Error while deleting ${url}. ${message ?? ''}`, 'error');
+
     throw error;
   }
 };
@@ -65,7 +78,10 @@ export const axiosPut = async <TRequest, TResponse>(
 
     return response.data;
   } catch (error) {
-    window.console.error(error);
+    const message = (error as AxiosError<{ message: string }>).response?.data
+      ?.message;
+
+    notification(`Error while updating ${url}. ${message ?? ''}`, 'error');
     throw error;
   }
 };

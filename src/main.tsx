@@ -1,20 +1,26 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-import React from 'react';
+/* eslint-disable import/no-extraneous-dependencies */
 import ReactDOM from 'react-dom/client';
+import { ToastContainer } from 'react-toastify';
+import { IpcRendererEvent } from 'electron';
 import App from './App';
 import './index.css';
+import 'react-toastify/dist/ReactToastify.css';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
+  <>
     <App />
-  </React.StrictMode>
+    <ToastContainer />
+  </>
 );
 
 // Remove Preload scripts loading
 postMessage({ payload: 'removeLoading' }, '*');
 
 // Use contextBridge
-window.ipcRenderer.on('main-process-message', (_event: any, message: any) => {
-  // eslint-disable-next-line no-console
-  console.log(message);
-});
+window.ipcRenderer.on(
+  'main-process-message',
+  (_event: IpcRendererEvent, message: string) => {
+    // eslint-disable-next-line no-console
+    console.log(message);
+  }
+);
