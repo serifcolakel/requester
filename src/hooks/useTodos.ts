@@ -1,6 +1,6 @@
-import { useEffect, useState } from 'react';
-import notification from '@utils/notification';
-import { getTodos } from '@services/todos';
+import { useCallback, useEffect, useState } from 'react';
+import { todoServices } from '@services/todos';
+import notification from '@lib/notification';
 
 type Todo = {
   userId: number;
@@ -42,13 +42,15 @@ export default function useTodos() {
   const removeTodo = (id: number) => () => {
     const newTodos = todos.filter((todo) => todo.id !== id);
 
-    notification('Todo removed successfully.', 'error');
+    notification(`Todo ${id} removed successfully.`, 'success');
     setTodos(newTodos);
   };
 
-  const refetch = async () => {
+  const refetch = useCallback(async () => {
     setLoading(true);
-    const list = await getTodos();
+    const { request } = todoServices.getAll<Todo[]>();
+
+    const list = await request;
 
     if (!list.length) {
       notification('Todo list is empty.', 'warning');
@@ -64,11 +66,11 @@ export default function useTodos() {
 
     setTodos(list);
     setLoading(false);
-  };
+  }, []);
 
   useEffect(() => {
     refetch();
-  }, []);
+  }, [refetch]);
 
   return {
     todos,
