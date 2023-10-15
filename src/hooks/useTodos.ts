@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
-import { todoServices } from '@services/todos';
 import notification from '@lib/notification';
+import { get } from '@services/api';
 
 type Todo = {
   userId: number;
@@ -9,6 +9,10 @@ type Todo = {
   completed: boolean;
 };
 
+/**
+ * @description A hook for managing todos
+ * @returns Returns the all functionality for todos
+ */
 export default function useTodos() {
   const [todos, setTodos] = useState<Todo[]>([]);
 
@@ -48,9 +52,7 @@ export default function useTodos() {
 
   const refetch = useCallback(async () => {
     setLoading(true);
-    const { request } = todoServices.getAll<Todo[]>();
-
-    const list = await request;
+    const list = await get<Todo[]>('todos');
 
     if (!list.length) {
       notification('Todo list is empty.', 'warning');
