@@ -11,6 +11,7 @@ const axiosInstance = axios.create({
 axiosInstance.interceptors.response.use(
   (response) => response,
   (error: AxiosError) => {
+    // INFO - This is a workaround to avoid showing the error notification when the request is canceled.
     if (axios.isCancel(error)) {
       window.console.log('TRequest canceled', error.message);
     }
@@ -19,6 +20,13 @@ axiosInstance.interceptors.response.use(
   }
 );
 
+/**
+ * Makes a GET request to the specified URL and returns the response data.
+ * @param url - The URL to make the GET request to.
+ * @param config - Optional Axios request configuration.
+ * @returns A Promise that resolves to the response data.
+ * @throws An error if the request fails.
+ */
 export const get = async <TResponse>(
   url: string,
   config?: AxiosRequestConfig
@@ -37,6 +45,16 @@ export const get = async <TResponse>(
   }
 };
 
+/**
+ * Sends a POST request to the specified URL with the given data and configuration.
+ * @template TRequest The type of the request data.
+ * @template TResponse The type of the response data.
+ * @param {string} url The URL to send the request to.
+ * @param {TRequest} data The data to send with the request.
+ * @param {AxiosRequestConfig} [config] The configuration for the request.
+ * @returns {Promise<TResponse>} A promise that resolves with the response data.
+ * @throws {AxiosError} If the request fails.
+ */
 export const post = async <TRequest, TResponse>(
   url: string,
   data: TRequest,
@@ -56,6 +74,14 @@ export const post = async <TRequest, TResponse>(
   }
 };
 
+/**
+ * Sends a DELETE request to the specified URL using axiosInstance.
+ * @template TResponse The expected response type.
+ * @param {string} url The URL to send the request to.
+ * @param {AxiosRequestConfig} [config] The optional request configuration.
+ * @returns {Promise<TResponse>} A promise that resolves with the response data.
+ * @throws {AxiosError} If the request fails.
+ */
 export const axiosDelete = async <TResponse>(
   url: string,
   config?: AxiosRequestConfig
@@ -74,6 +100,16 @@ export const axiosDelete = async <TResponse>(
   }
 };
 
+/**
+ * Sends a PUT request to the specified URL with the provided data and configuration.
+ * @template TRequest The type of the request data.
+ * @template TResponse The type of the response data.
+ * @param {string} url The URL to send the request to.
+ * @param {TRequest} data The data to send with the request.
+ * @param {AxiosRequestConfig} [config] The configuration for the request.
+ * @returns {Promise<TResponse>} A promise that resolves with the response data.
+ * @throws {AxiosError} If the request fails.
+ */
 export const axiosPut = async <TRequest, TResponse>(
   url: string,
   data: TRequest,
