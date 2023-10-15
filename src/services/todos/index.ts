@@ -1,6 +1,3 @@
-import { get } from '../api';
-import { Todo } from './types';
+import create from '../http-service';
 
-export const getTodos = async (): Promise<Todo[]> => {
-  return get<Todo[]>('/todos');
-};
+export const todoServices = create('/todos');
