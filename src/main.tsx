@@ -1,17 +1,11 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import ReactDOM from 'react-dom/client';
-import { ToastContainer } from 'react-toastify';
 import { IpcRendererEvent } from 'electron';
-import App from './App';
 import './index.css';
 import 'react-toastify/dist/ReactToastify.css';
+import App from './App';
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <>
-    <App />
-    <ToastContainer />
-  </>
-);
+ReactDOM.createRoot(document.getElementById('root')!).render(<App />);
 
 // Remove Preload scripts loading
 postMessage({ payload: 'removeLoading' }, '*');
