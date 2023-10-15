@@ -1,10 +1,10 @@
-import axios, { AxiosError } from 'axios';
-import notification from '@utils/notification';
+import axios, { AxiosError, AxiosRequestConfig } from 'axios';
+import notification from '@lib/notification';
 
 const cancelToken = axios.CancelToken.source();
 
 const axiosInstance = axios.create({
-  baseURL: 'https://jsonplaceholder.typicode.com',
+  baseURL: import.meta.env.VITE_BASE_SERVICE_URL,
   cancelToken: cancelToken.token,
 });
 
@@ -19,9 +19,12 @@ axiosInstance.interceptors.response.use(
   }
 );
 
-export const get = async <TResponse>(url: string): Promise<TResponse> => {
+export const get = async <TResponse>(
+  url: string,
+  config?: AxiosRequestConfig
+): Promise<TResponse> => {
   try {
-    const response = await axiosInstance.get<TResponse>(url);
+    const response = await axiosInstance.get<TResponse>(url, config);
 
     return response.data;
   } catch (error) {
@@ -36,10 +39,11 @@ export const get = async <TResponse>(url: string): Promise<TResponse> => {
 
 export const post = async <TRequest, TResponse>(
   url: string,
-  data: TRequest
+  data: TRequest,
+  config?: AxiosRequestConfig
 ): Promise<TResponse> => {
   try {
-    const response = await axiosInstance.post<TResponse>(url, data);
+    const response = await axiosInstance.post<TResponse>(url, data, config);
 
     return response.data;
   } catch (error) {
@@ -53,10 +57,11 @@ export const post = async <TRequest, TResponse>(
 };
 
 export const axiosDelete = async <TResponse>(
-  url: string
+  url: string,
+  config?: AxiosRequestConfig
 ): Promise<TResponse> => {
   try {
-    const response = await axiosInstance.delete<TResponse>(url);
+    const response = await axiosInstance.delete<TResponse>(url, config);
 
     return response.data;
   } catch (error) {
@@ -71,10 +76,11 @@ export const axiosDelete = async <TResponse>(
 
 export const axiosPut = async <TRequest, TResponse>(
   url: string,
-  data: TRequest
+  data: TRequest,
+  config?: AxiosRequestConfig
 ): Promise<TResponse> => {
   try {
-    const response = await axiosInstance.put<TResponse>(url, data);
+    const response = await axiosInstance.put<TResponse>(url, data, config);
 
     return response.data;
   } catch (error) {
