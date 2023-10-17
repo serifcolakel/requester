@@ -10,12 +10,13 @@ const inputStyles = cva(
     variants: {
       intent: {
         default:
-          'border focus:border-primary border-input hover:border-primary',
-        muted: 'border focus:border-muted border-input hover:border-muted',
+          'border focus:border-primary border-input hover:border-primary focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-primary',
+        muted:
+          'border focus:border-muted border-muted hover:border-muted focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-muted',
         secondary:
-          'border focus:border-secondary border-input hover:border-secondary',
+          'border focus:border-secondary border-secondary hover:border-secondary focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-secondary',
         destructive:
-          'border focus:border-destructive border-input hover:border-destructive',
+          'border focus:border-destructive border-destructive hover:border-destructive focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 focus-visible:ring-destructive',
       },
       inputHeight: {
         default: 'h-10',
