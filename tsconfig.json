@@ -15,7 +15,7 @@
     "jsx": "react-jsx",
     "baseUrl": "./",
     "paths": {
-      "@/*": ["src/*"],
+      "@*": ["src/*"],
       "@electron/*": ["electron/*"],
       "@components/*": ["src/components/*"],
       "@hooks/*": ["src/hooks/*"],
@@ -23,6 +23,7 @@
       "@store/*": ["src/store/*"],
       "@routes/*": ["src/routes/*"],
       "@utils/*": ["src/utils/*"],
+      "@common/*": ["src/common/*"],
       "@lib/*": ["src/lib/*"],
       "@assets/*": ["src/assets/*"],
       "@services/*": ["src/services/*"]
