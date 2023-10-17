@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { app, BrowserWindow, Notification } from 'electron';
+import { app, BrowserWindow, Notification, ipcMain } from 'electron';
 import path from 'node:path';
 
 const NOTIFICATION_TITLE = 'Basic Notification';
@@ -40,7 +40,9 @@ function createWindow() {
     minWidth: 800,
     fullscreenable: true,
     movable: true,
-    title: 'Vite Electron',
+    resizable: true,
+    enableLargerThanScreen: true,
+    frame: true,
     webPreferences: {
       preload: path.join(__dirname, 'preload.js'),
     },
@@ -50,7 +52,6 @@ function createWindow() {
   win.webContents.on('did-finish-load', () => {
     win?.webContents.send('main-process-message', new Date().toLocaleString());
   });
-  app.setBadgeCount(15);
 
   if (VITE_DEV_SERVER_URL) {
     win.loadURL(VITE_DEV_SERVER_URL);
@@ -59,6 +60,12 @@ function createWindow() {
     win.loadFile(path.join(process.env.DIST, 'index.html'));
   }
 }
+
+ipcMain.on('CHANGE_BADGE_COUNT', (_event, arg) => {
+  const count = arg?.badgeCount || app.badgeCount + 1;
+
+  app.setBadgeCount(count);
+});
 
 // Quit when all windows are closed, except on macOS. There, it's common
 // for applications and their menu bar to stay active until the user quits
@@ -77,5 +84,4 @@ app.on('activate', () => {
     createWindow();
   }
 });
-
 app.whenReady().then(createWindow).then(showNotification);
