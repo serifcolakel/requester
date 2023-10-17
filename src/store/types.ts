@@ -1,6 +1,6 @@
 export type TEnvironment = {
   id: string;
-  veriable: string;
+  name: string;
   value: string;
 };
 

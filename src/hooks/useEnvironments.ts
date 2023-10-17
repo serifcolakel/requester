@@ -12,7 +12,7 @@ export default function useEnvironments() {
   const [environments, setEnvironments] = useCustomAtom(environmentsAtom);
 
   const hasEmptyEnvironments = () =>
-    environments.some((env) => env.veriable === '' || env.value === '');
+    environments.some((env) => env.name === '' || env.value === '');
 
   const addEnvironment = () => {
     if (hasEmptyEnvironments()) {
@@ -25,7 +25,7 @@ export default function useEnvironments() {
       ...environments,
       {
         id: generateRandomId(),
-        veriable: '',
+        name: '',
         value: '',
       },
     ]);
@@ -43,20 +43,17 @@ export default function useEnvironments() {
     );
   };
 
-  const updateEnvironmentVariableName = (
-    env: TEnvironment,
-    veriable: string
-  ) => {
+  const updateEnvironmentVariableName = (env: TEnvironment, name: string) => {
     setEnvironments(
       environments.map((environment) =>
-        environment.id === env.id ? { ...env, veriable } : environment
+        environment.id === env.id ? { ...env, name } : environment
       )
     );
   };
 
   const removeEmptyEnvironments = () => {
     setEnvironments(
-      environments.filter((env) => env.veriable !== '' && env.value !== '')
+      environments.filter((env) => env.name !== '' && env.value !== '')
     );
   };
 
