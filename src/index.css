@@ -59,31 +59,16 @@
 }
 
 .input-container {
-  border: 1px solid gray;
-  border-radius: 4px;
-  height: 2rem;
-  position: relative;
+  @apply h-[44px] rounded relative;
 }
 
 .input-container input {
-  width: 100%;
-  border: none;
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  outline: none;
-  padding: 0 0.5rem;
-  font-size: 14px;
-  background: transparent;
-  border-radius: 4px;
-}
-
-.input-container input:focus {
-  @apply ring-0 border-primary;
+  @apply w-full h-full absolute inset-0 bg-transparent outline-none text-base z-10 px-2 rounded border-input;
+  @apply focus:ring-2 focus:ring-primary focus:ring-offset-2 dark:ring-offset-slate-900 focus:border-primary;
 }
 
 .input-container input::placeholder {
-  color: transparent;
+  @apply text-transparent;
 }
 
 /* For showing through placeholder */
@@ -92,18 +77,7 @@
 }
 
 .input-container .input-renderer {
-  font-size: 14px;
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  margin: 0 0.5rem;
-  /* This line preserves trailing
-      whitespaces */
-  white-space: pre;
-
-  overflow-x: auto;
-  user-select: none;
+  @apply absolute inset-0 mx-2 text-base text-foreground flex items-center rounded whitespace-nowrap overflow-x-auto select-none;
   scrollbar-width: none;
 }
 
