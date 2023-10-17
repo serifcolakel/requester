@@ -3,8 +3,25 @@ import useEnvironments from '@hooks/useEnvironments';
 import useTodos from '@hooks/useTodos';
 import { Checkbox } from '@components/ui/checkbox';
 import { Input } from '@components/ui/input';
-import { AiFillDelete } from 'react-icons/ai';
-import CustomInput from '@components/HiglightedInput';
+import { TrashIcon } from 'lucide-react';
+import HighlightedInput from '@components/HighlightedInput';
+import { FormProvider, useForm } from 'react-hook-form';
+import InputField from '@components/form-field/InputField';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+
+const defaultValues = {
+  test: '',
+  nestedValue: '',
+  agree: false,
+};
+
+const schema = z.object({
+  test: z.string().min(3, 'Min 3'),
+  nestedValue: z.string().min(3, 'Min 3'),
+});
+
+type FormValues = z.infer<typeof schema>;
 
 export default function Home() {
   const {
@@ -15,6 +32,11 @@ export default function Home() {
     updateEnvironmentVariableName,
   } = useEnvironments();
 
+  const methods = useForm({
+    resolver: zodResolver(schema),
+    defaultValues,
+  });
+
   const { loading, todos, toggleTodo, removeTodo, updateTodoTitle } =
     useTodos();
 
@@ -22,9 +44,30 @@ export default function Home() {
     return <div>Loading...</div>;
   }
 
+  const options = environments.map(({ id, ...rest }) => ({ ...rest }));
+
   return (
     <div className="flex flex-col p-4 space-y-4">
-      <CustomInput />
+      <FormProvider {...methods}>
+        <form
+          className="grid grid-cols-2 gap-4"
+          onSubmit={methods.handleSubmit((data) => window.console.log(data))}
+        >
+          <InputField<FormValues> label="21412414" name="test" />
+          <InputField<FormValues> label="124124" name="nestedValue" />
+          <InputField<FormValues> label="124124" name="nestedValue" />
+          <HighlightedInput
+            getFormattedValue={(l) => {
+              window.console.log(l);
+            }}
+            initialValue="https://{{BASE_URL}}/api/v1/{{ENDPOINT}}"
+            label="Test"
+            options={options}
+          />
+          <Button type="submit">Submit</Button>
+        </form>
+      </FormProvider>
+      <div className="w-1/2 p-4" />
       <h1 className="text-2xl font-bold text-center">
         Environments ({environments.length})
       </h1>
@@ -38,7 +81,7 @@ export default function Home() {
               }
               placeholder="Variable Name"
               type="text"
-              value={env.veriable}
+              value={env.name}
             />
             <Input
               onChange={(e) => updateEnvironmentValue(env, e.target.value)}
@@ -71,10 +114,11 @@ export default function Home() {
             />
             <Checkbox
               checked={todo.completed}
+              intent="destructive"
               onCheckedChange={toggleTodo(todo.id)}
               value={todo.id}
             />
-            <AiFillDelete
+            <TrashIcon
               className="text-red-500 cursor-pointer w-7 h-7"
               onClick={removeTodo(todo.id)}
             />
