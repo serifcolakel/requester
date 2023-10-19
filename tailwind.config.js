@@ -1,3 +1,4 @@
+/* eslint-disable global-require */
 /* eslint-disable no-undef */
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -73,5 +74,6 @@ module.exports = {
       },
     },
   },
+  // eslint-disable-next-line import/no-extraneous-dependencies
   plugins: [require('tailwindcss-animate'), require('@tailwindcss/forms')],
 };

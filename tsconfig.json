@@ -17,6 +17,7 @@
     "paths": {
       "@*": ["src/*"],
       "@electron/*": ["electron/*"],
+      "@ui/*": ["src/components/ui/*"],
       "@components/*": ["src/components/*"],
       "@hooks/*": ["src/hooks/*"],
       "@pages/*": ["src/pages/*"],
@@ -35,6 +36,12 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
-  "include": ["src", "electron"],
+  "include": [
+    "src",
+    "electron",
+    "vite.config.ts",
+    "tailwind.config.js",
+    "postcss.config.js"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }
