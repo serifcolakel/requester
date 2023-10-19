@@ -1,8 +1,8 @@
 /* eslint-disable max-len */
 import * as React from 'react';
+import { cva, VariantProps } from 'class-variance-authority';
 
 import { cn } from '@lib/utils';
-import { VariantProps, cva } from 'class-variance-authority';
 
 const inputStyles = cva(
   'w-full focus:ring-0 disabled:cursor-not-allowed disabled:opacity-50 placeholder:text-gray-400 placeholder:text-sm dark:placeholder-gray-500 dark:text-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:focus:ring-gray-700 dark:focus:border-gray-700 dark:disabled:opacity-50 dark:disabled:cursor-not-allowed',

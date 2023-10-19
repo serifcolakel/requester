@@ -1,13 +1,14 @@
 import { PropsWithChildren, useId, useState } from 'react';
 import { InfoIcon } from 'lucide-react';
+
+import { Label } from '@ui/label';
 import {
   Tooltip,
   TooltipArrow,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from './ui/tooltip';
-import { Label } from './ui/label';
+} from '@ui/tooltip';
 
 const REGEX = /({{.*?}})/g;
 

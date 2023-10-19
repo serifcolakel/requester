@@ -1,5 +1,6 @@
+import { type Id, toast } from 'react-toastify';
+
 import { IPC_EVENTS } from '@common/constants';
-import { toast, type Id } from 'react-toastify';
 
 const notify = (
   message: string,

@@ -1,6 +1,7 @@
-import { useCustomAtom } from '@store/index';
 import { environmentsAtom } from '@store/atoms';
+import { useCustomAtom } from '@store/index';
 import { TEnvironment } from '@store/types';
+
 import { generateRandomId } from '@lib/generate';
 import notification from '@lib/notification';
 

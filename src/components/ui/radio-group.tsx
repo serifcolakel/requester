@@ -1,8 +1,8 @@
 /* eslint-disable max-len */
 /* eslint-disable react/prop-types */
 import * as React from 'react';
-import * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
 import { Circle } from 'lucide-react';
+import * as RadioGroupPrimitive from '@radix-ui/react-radio-group';
 
 import { cn } from '@lib/utils';
 

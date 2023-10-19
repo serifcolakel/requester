@@ -1,9 +1,10 @@
 /* eslint-disable max-len */
 import * as React from 'react';
-import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
+import { cva, VariantProps } from 'class-variance-authority';
 import { Check } from 'lucide-react';
+import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
+
 import { cn } from '@lib/utils';
-import { VariantProps, cva } from 'class-variance-authority';
 
 const checkBoxStyles = cva('group-hover:cursor-pointer', {
   variants: {

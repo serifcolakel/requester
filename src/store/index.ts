@@ -106,4 +106,4 @@ function cloneAtom<AtomType>(atom: Atom<AtomType>): Atom<AtomType> {
   return createAtom(atom.get());
 }
 
-export { createAtom, useCustomAtom, useCustomAtomValue, cloneAtom };
+export { cloneAtom, createAtom, useCustomAtom, useCustomAtomValue };

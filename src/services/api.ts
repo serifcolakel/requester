@@ -1,4 +1,5 @@
 import axios, { AxiosError, AxiosRequestConfig } from 'axios';
+
 import notification from '@lib/notification';
 
 const cancelToken = axios.CancelToken.source();

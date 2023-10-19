@@ -1,14 +1,83 @@
-import { Button } from '@components/ui/button';
-import useEnvironments from '@hooks/useEnvironments';
-import useTodos from '@hooks/useTodos';
-import { Checkbox } from '@components/ui/checkbox';
-import { Input } from '@components/ui/input';
-import { TrashIcon } from 'lucide-react';
-import HighlightedInput from '@components/HighlightedInput';
+import * as React from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
-import InputField from '@components/form-field/InputField';
+import { TrashIcon } from 'lucide-react';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+
+import InputField from '@components/form-field/InputField';
+import HighlightedInput from '@components/HighlightedInput';
+import { Button } from '@components/ui/button';
+import { Checkbox } from '@components/ui/checkbox';
+import { Input } from '@components/ui/input';
+
+import useEnvironments from '@hooks/useEnvironments';
+import useTodos from '@hooks/useTodos';
+
+type FormElementBaseProps = {
+  children?: React.ReactNode;
+  variant?: 'primary' | 'secondary' | 'outline' | 'link';
+};
+
+type FormElementProps = FormElementBaseProps &
+  (
+    | (React.ButtonHTMLAttributes<HTMLButtonElement> & {
+        as: 'button';
+      })
+    | (React.AnchorHTMLAttributes<HTMLAnchorElement> & {
+        as: 'a';
+      })
+    | (React.InputHTMLAttributes<HTMLInputElement> & {
+        as: 'input';
+      })
+    | (React.SelectHTMLAttributes<HTMLSelectElement> & {
+        as: 'select';
+      })
+    | (React.TextareaHTMLAttributes<HTMLTextAreaElement> & {
+        as: 'textarea';
+      })
+  );
+
+export function FormElement({ variant, ...props }: FormElementProps) {
+  switch (props.as) {
+    case 'button':
+      return (
+        <button type="button" {...props}>
+          {props.children}
+        </button>
+      );
+    case 'a':
+      return <a {...props}>{props.children}</a>;
+    case 'input':
+      return <input {...props} />;
+    case 'select':
+      return <select {...props}>{props.children}</select>;
+    case 'textarea':
+      return <textarea {...props} />;
+    default:
+      return null;
+  }
+}
+
+export function Usage() {
+  return (
+    <main>
+      <FormElement as="button" variant="primary">
+        Submit
+      </FormElement>
+
+      <FormElement as="a" href="https://example.com" variant="secondary">
+        Example
+      </FormElement>
+      <FormElement as="input" type="text" variant="outline" />
+      <FormElement as="select" variant="link">
+        <option value="1">Option 1</option>
+        <option value="2">Option 2</option>
+        <option value="3">Option 3</option>
+      </FormElement>
+      <FormElement as="textarea" variant="primary" />
+    </main>
+  );
+}
 
 const defaultValues = {
   test: '',
@@ -33,8 +102,9 @@ export default function Home() {
   } = useEnvironments();
 
   const methods = useForm({
-    resolver: zodResolver(schema),
+    mode: 'onChange',
     defaultValues,
+    resolver: zodResolver(schema),
   });
 
   const { loading, todos, toggleTodo, removeTodo, updateTodoTitle } =

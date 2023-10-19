@@ -1,5 +1,5 @@
-import { createAtom } from '.';
 import { TEnvironments } from './types';
+import { createAtom } from '.';
 
 const environmentsAtom = createAtom<TEnvironments>([]);
 
