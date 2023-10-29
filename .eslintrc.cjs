@@ -93,8 +93,11 @@ module.exports = {
               ['^@ui(/.*|$)'],
               ['^@lib(/.*|$)'],
               ['^@pages(/.*|$)'],
+              ['^@routes(/.*|$)'],
+              ['^@layouts(/.*|$)'],
               ['^@utils(/.*|$)'],
               ['^@hooks(/.*|$)'],
+              ['^@providers(/.*|$)'],
               ['^@services(/.*|$)'],
               // Side effect imports.
               ['^\\u0000'],
