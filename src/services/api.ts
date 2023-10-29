@@ -1,6 +1,7 @@
 import axios, { AxiosError, AxiosRequestConfig } from 'axios';
 
-import notification from '@lib/notification';
+import { LOCAL_STORAGE_KEYS } from '@common/constants';
+import { handleError, handleResponse } from '@helpers/serviceHandlers';
 
 const cancelToken = axios.CancelToken.source();
 
@@ -9,8 +10,30 @@ const axiosInstance = axios.create({
   cancelToken: cancelToken.token,
 });
 
+axiosInstance.interceptors.request.use((config) => {
+  // INFO - This is a workaround to avoid showing the error notification when the request is canceled.
+  if (axios.isCancel(config)) {
+    window.console.log('TRequest canceled', config.message);
+  }
+
+  const token = localStorage.getItem(LOCAL_STORAGE_KEYS.TOKEN);
+
+  if (!token) {
+    return config;
+  }
+
+  // eslint-disable-next-line no-param-reassign
+  config.headers.Authorization = `Bearer ${JSON.parse(token)}`;
+
+  return config;
+});
+
 axiosInstance.interceptors.response.use(
-  (response) => response,
+  (response) => {
+    handleResponse(response.data);
+
+    return response;
+  },
   (error: AxiosError) => {
     // INFO - This is a workaround to avoid showing the error notification when the request is canceled.
     if (axios.isCancel(error)) {
@@ -37,10 +60,7 @@ export const get = async <TResponse>(
 
     return response.data;
   } catch (error) {
-    const message = (error as AxiosError<{ message: string }>).response?.data
-      ?.message;
-
-    notification(`Error while fetching ${url}. ${message ?? ''}`, 'error');
+    handleError(error);
 
     throw error;
   }
@@ -66,10 +86,7 @@ export const post = async <TRequest, TResponse>(
 
     return response.data;
   } catch (error) {
-    const message = (error as AxiosError<{ message: string }>).response?.data
-      ?.message;
-
-    notification(`Error while posting ${url}. ${message ?? ''}`, 'error');
+    handleError(error);
 
     throw error;
   }
@@ -92,10 +109,7 @@ export const axiosDelete = async <TResponse>(
 
     return response.data;
   } catch (error) {
-    const message = (error as AxiosError<{ message: string }>).response?.data
-      ?.message;
-
-    notification(`Error while deleting ${url}. ${message ?? ''}`, 'error');
+    handleError(error);
 
     throw error;
   }
@@ -121,10 +135,8 @@ export const axiosPut = async <TRequest, TResponse>(
 
     return response.data;
   } catch (error) {
-    const message = (error as AxiosError<{ message: string }>).response?.data
-      ?.message;
+    handleError(error);
 
-    notification(`Error while updating ${url}. ${message ?? ''}`, 'error');
     throw error;
   }
 };
