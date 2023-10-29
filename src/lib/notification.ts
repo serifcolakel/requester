@@ -37,7 +37,9 @@ export default function notification(
 
   return toast[type](message, {
     position: 'bottom-right',
-    autoClose: 3000,
+    toastId: type,
+    autoClose: 1500,
+    updateId: type,
     hideProgressBar: false,
     closeOnClick: true,
     pauseOnHover: true,
