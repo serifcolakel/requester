@@ -5,3 +5,7 @@ export const IPC_EVENTS = {
   MINIMIZE_WINDOW: 'MINIMIZE_WINDOW',
   OPEN_WINDOW: 'OPEN_WINDOW',
 };
+
+export const LOCAL_STORAGE_KEYS = {
+  TOKEN: import.meta.env.VITE_ACCESS_TOKEN_KEY as string,
+} as const;
