@@ -1,6 +1,11 @@
-import { TEnvironments } from './types';
+import { Environment } from '@services/environment/types';
+
 import { createAtom } from '.';
 
-const environmentsAtom = createAtom<TEnvironments>([]);
+const environmentsAtom = createAtom<Environment[]>([]);
 
-export { environmentsAtom };
+const loadingAtom = createAtom<boolean>(false);
+
+const tokenAtom = createAtom<string>('');
+
+export { environmentsAtom, loadingAtom, tokenAtom };
