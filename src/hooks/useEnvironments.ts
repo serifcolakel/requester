@@ -1,69 +1,65 @@
+import { useCallback, useEffect, useState } from 'react';
+
 import { environmentsAtom } from '@store/atoms';
 import { useCustomAtom } from '@store/index';
-import { TEnvironment } from '@store/types';
 
-import { generateRandomId } from '@lib/generate';
-import notification from '@lib/notification';
+import {
+  createEnvironment,
+  deleteEnvironment,
+  getAllEnvironments,
+  updateEnvironment,
+} from '@services/environment/service';
+import { Environment } from '@services/environment/types';
 
 /**
  * @description This hook is used to manage environments with global state
  * @returns Returns the all functionality for environments
  */
 export default function useEnvironments() {
+  const [loading, setLoading] = useState<boolean>(false);
+
   const [environments, setEnvironments] = useCustomAtom(environmentsAtom);
 
-  const hasEmptyEnvironments = () =>
-    environments.some((env) => env.name === '' || env.value === '');
+  const refetch = useCallback(
+    async (forceFetch = false) => {
+      if (environments.length && !forceFetch) return;
 
-  const addEnvironment = () => {
-    if (hasEmptyEnvironments()) {
-      notification('Please fill the empty environments.', 'warning');
+      setLoading(true);
+      const res = await getAllEnvironments();
 
-      return;
-    }
+      setEnvironments(res.data);
+      setLoading(false);
+    },
+    [environments.length, setEnvironments]
+  );
 
-    setEnvironments([
-      ...environments,
-      {
-        id: generateRandomId(),
-        name: '',
-        value: '',
-      },
-    ]);
+  useEffect(() => {
+    refetch();
+  }, [refetch]);
+
+  const create = async (name?: string) => {
+    await createEnvironment({
+      name: name || 'New Environment',
+    });
+    refetch(true);
   };
 
-  const removeEnvironment = (environment: TEnvironment) => {
-    setEnvironments(environments.filter((env) => env.id !== environment.id));
+  const update = async (environment: Environment) => {
+    await updateEnvironment(environment.id, { name: environment.name });
+    refetch(true);
   };
 
-  const updateEnvironmentValue = (env: TEnvironment, value: string) => {
-    setEnvironments(
-      environments.map((environment) =>
-        environment.id === env.id ? { ...env, value } : environment
-      )
-    );
-  };
-
-  const updateEnvironmentVariableName = (env: TEnvironment, name: string) => {
-    setEnvironments(
-      environments.map((environment) =>
-        environment.id === env.id ? { ...env, name } : environment
-      )
-    );
-  };
-
-  const removeEmptyEnvironments = () => {
-    setEnvironments(
-      environments.filter((env) => env.name !== '' && env.value !== '')
-    );
+  const remove = async (id: string) => {
+    await deleteEnvironment(id);
+    refetch(true);
   };
 
   return {
     environments,
-    addEnvironment,
-    removeEnvironment,
-    updateEnvironmentValue,
-    updateEnvironmentVariableName,
-    removeEmptyEnvironments,
+    loading,
+    refetch,
+    create,
+    update,
+    remove,
   };
 }
