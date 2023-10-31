@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 import notification from '@lib/notification';
 
 import { get } from '@services/api';
+import { BaseResponse } from '@services/types';
 
 type Todo = {
   userId: number;
@@ -54,21 +55,9 @@ export default function useTodos() {
 
   const refetch = useCallback(async () => {
     setLoading(true);
-    const list = await get<Todo[]>('todos');
+    const res = await get<BaseResponse<Todo[]>>('todos');
 
-    if (!list.length) {
-      notification('Todo list is empty.', 'warning');
-      setLoading(false);
-
-      return;
-    }
-
-    notification(
-      `Todo list loaded successfully. ${list.length} items found.`,
-      'success'
-    );
-
-    setTodos(list);
+    setTodos(res.data);
     setLoading(false);
   }, []);
 
