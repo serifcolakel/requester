@@ -1,7 +1,8 @@
 import axios, { AxiosError, AxiosRequestConfig } from 'axios';
 
+import { handleError } from '@helpers/serviceHandlers';
+
 import { LOCAL_STORAGE_KEYS } from '@common/constants';
-import { handleError, handleResponse } from '@helpers/serviceHandlers';
 
 const cancelToken = axios.CancelToken.source();
 
@@ -30,7 +31,7 @@ axiosInstance.interceptors.request.use((config) => {
 
 axiosInstance.interceptors.response.use(
   (response) => {
-    handleResponse(response.data);
+    // handleResponse(response.data);
 
     return response;
   },
