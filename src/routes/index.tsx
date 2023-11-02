@@ -6,6 +6,8 @@ import Home from '@pages/home';
 import Login from '@pages/login';
 import Register from '@pages/register';
 
+import CollectionLayout from '@layouts/collection-layout';
+import DashboardLayout from '@layouts/dashboard-layout';
 import Environment from '@layouts/environment-layout';
 
 import Protected from '@providers/Protected';
@@ -15,41 +17,55 @@ import paths from './paths';
 export default function Routes() {
   return (
     <RouterRoutes>
-      <Route
-        element={
-          <Protected>
-            <Home />
-          </Protected>
-        }
-        path={paths.home}
-      />
+      <Route element={<Home />} path={paths.home} />
       <Route index element={<Login />} path={paths.login} />
       <Route element={<Register />} path={paths.register} />
 
+      {/* Protected Routes */}
       <Route
         element={
           <Protected>
-            <Environment />
+            <DashboardLayout />
           </Protected>
         }
-        path={paths.environment}
+        path={paths.dashboard}
       >
         <Route
-          index
           element={
             <Protected>
-              <EnvironmentPage />
+              <CollectionLayout />
             </Protected>
           }
-        />
+          path={paths.collections}
+        >
+          <Route index element={<Protected>aaa14124</Protected>} />
+        </Route>
+
         <Route
           element={
             <Protected>
-              <EnvironmentDetail />
+              <Environment />
             </Protected>
           }
-          path={paths.environmentDetail}
-        />
+          path={paths.environments}
+        >
+          <Route
+            index
+            element={
+              <Protected>
+                <EnvironmentPage />
+              </Protected>
+            }
+          />
+          <Route
+            element={
+              <Protected>
+                <EnvironmentDetail />
+              </Protected>
+            }
+            path={paths.environmentDetail}
+          />
+        </Route>
       </Route>
     </RouterRoutes>
   );

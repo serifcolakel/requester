@@ -3,11 +3,13 @@ export default {
   login: '/login',
   register: '/register',
 
-  environment: '/environment',
-  environmentDetail: '/environment/:id',
+  dashboard: '/dashboard',
+
+  environments: '/dashboard/environments',
+  environmentDetail: '/dashboard/environments/:id',
+  collections: '/dashboard/collections',
 
   forgotPassword: '/forgot-password',
   resetPassword: '/reset-password',
-  dashboard: '/dashboard',
   settings: '/settings',
 };
