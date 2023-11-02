@@ -1,7 +1,8 @@
 import { useParams } from 'react-router-dom';
-import { PlusSquare } from 'lucide-react';
+import { Plus } from 'lucide-react';
 
 import CustomTable from '@components/custom-table';
+import { Input } from '@components/ui/input';
 import {
   Tooltip,
   TooltipContent,
@@ -14,22 +15,34 @@ import useVariable from '@hooks/useVariable';
 export default function EnvironmentDetail() {
   const t = useParams<{ id: string }>();
 
-  const { variables, loading, setVariables, create, columns } = useVariable(
-    t.id ?? ''
-  );
+  const {
+    variables,
+    loading,
+    setVariables,
+    create,
+    columns,
+    setSearch,
+    search,
+  } = useVariable(t.id ?? '');
 
   if (loading) {
     return <div>Loading...</div>;
   }
 
   return (
-    <div className="w-full h-full p-4 bg-gray-200">
+    <div className="w-full h-full p-4">
       <div className="w-full p-4 space-y-4 bg-white">
-        <header className="flex flex-row items-center justify-end">
+        <header className="flex flex-row items-center justify-between">
+          <Input
+            className="w-1/4 h-8"
+            onChange={(e) => setSearch(e.target.value)}
+            placeholder="Filter variables..."
+            value={search}
+          />
           <TooltipProvider key="new variable">
             <Tooltip>
               <TooltipTrigger>
-                <PlusSquare className="w-8 h-8" onClick={() => create()} />
+                <Plus className="w-8 h-8" onClick={() => create()} />
               </TooltipTrigger>
               <TooltipContent>Add new variable</TooltipContent>
             </Tooltip>
