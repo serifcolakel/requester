@@ -1,33 +1,47 @@
+import { handleResponse } from '@helpers/serviceHandlers';
+
 import { axiosDelete, axiosPut, get, post } from '@services/api';
 
 import {
   CreateEnvironmentRequest,
   CreateEnvironmentResponse,
+  DeleteEnvironmentResponse,
   GetAllEnvironmentResponse,
   UpdateEnvironmentRequest,
   UpdateEnvironmentResponse,
 } from './types';
 
-export const getAllEnvironments =
-  async (): Promise<GetAllEnvironmentResponse> => {
-    const response = await get<GetAllEnvironmentResponse>('environments');
+export const getAllEnvironments = async (
+  showNotification = false
+): Promise<GetAllEnvironmentResponse> => {
+  const response = await get<GetAllEnvironmentResponse>('environments');
 
-    return response;
-  };
+  if (showNotification) handleResponse(response);
+
+  return response;
+};
 
 export const createEnvironment = async (
   values: CreateEnvironmentRequest
 ): Promise<CreateEnvironmentResponse> => {
-  const res = post<CreateEnvironmentRequest, CreateEnvironmentResponse>(
+  const res = await post<CreateEnvironmentRequest, CreateEnvironmentResponse>(
     'environments',
     values
   );
 
+  handleResponse(res);
+
   return res;
 };
 
-export const deleteEnvironment = async (id: string): Promise<void> => {
-  const res = await axiosDelete<void>(`environments/${id}`);
+export const deleteEnvironment = async (
+  id: string
+): Promise<DeleteEnvironmentResponse> => {
+  const res = await axiosDelete<DeleteEnvironmentResponse>(
+    `environments/${id}`
+  );
+
+  handleResponse(res);
 
   return res;
 };
@@ -40,6 +54,8 @@ export const updateEnvironment = async (
     UpdateEnvironmentRequest,
     UpdateEnvironmentResponse
   >(`environments/${id}`, values);
+
+  handleResponse(res);
 
   return res;
 };
