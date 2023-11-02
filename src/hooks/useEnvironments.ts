@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 
-import { environmentsAtom } from '@store/atoms';
+import { environmentsAtom, selectedEnvironmentAtom } from '@store/atoms';
 import { useCustomAtom } from '@store/index';
 
 import {
@@ -11,6 +11,8 @@ import {
 } from '@services/environment/service';
 import { Environment } from '@services/environment/types';
 
+import useDebounce from './useDebounce';
+
 /**
  * @description This hook is used to manage environments with global state
  * @returns Returns the all functionality for environments
@@ -18,7 +20,13 @@ import { Environment } from '@services/environment/types';
 export default function useEnvironments() {
   const [loading, setLoading] = useState<boolean>(false);
 
+  const [search, setSearch] = useState<string>('');
+
+  const filterValue = useDebounce(search, 500);
+
   const [environments, setEnvironments] = useCustomAtom(environmentsAtom);
+
+  const [environment, setEnvironment] = useCustomAtom(selectedEnvironmentAtom);
 
   const refetch = useCallback(
     async (forceFetch = false) => {
@@ -44,8 +52,8 @@ export default function useEnvironments() {
     refetch(true);
   };
 
-  const update = async (environment: Environment) => {
-    await updateEnvironment(environment.id, { name: environment.name });
+  const update = async (env: Environment) => {
+    await updateEnvironment(env.id, { name: env.name });
     refetch(true);
   };
 
@@ -55,8 +63,14 @@ export default function useEnvironments() {
   };
 
   return {
-    environments,
+    environments: environments.filter((env) =>
+      env.name.toLowerCase().includes(filterValue.toLowerCase())
+    ),
+    search,
     loading,
+    environment,
+    setEnvironment,
+    setSearch,
     refetch,
     create,
     update,

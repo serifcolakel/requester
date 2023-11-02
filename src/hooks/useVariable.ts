@@ -10,6 +10,8 @@ import {
 } from '@services/variable/service';
 import { Variable } from '@services/variable/types';
 
+import useDebounce from './useDebounce';
+
 export type UseVariable = ReturnType<typeof useVariable>;
 
 /**
@@ -18,6 +20,10 @@ export type UseVariable = ReturnType<typeof useVariable>;
  */
 export default function useVariable(environmentId: string) {
   const [loading, setLoading] = useState<boolean>(false);
+
+  const [search, setSearch] = useState<string>('');
+
+  const filterValue = useDebounce(search, 500);
 
   const [variables, setVariables] = useState<Variable[]>([]);
 
@@ -59,10 +65,14 @@ export default function useVariable(environmentId: string) {
   const { columns } = useTableColums({ remove, update });
 
   return {
-    variables,
-    setVariables,
+    variables: variables.filter((variable) =>
+      variable.name.toLowerCase().includes(filterValue.toLowerCase())
+    ),
+    search,
     loading,
     columns,
+    setVariables,
+    setSearch,
     refetch,
     create,
     update,
