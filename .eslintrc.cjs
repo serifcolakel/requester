@@ -96,6 +96,7 @@ module.exports = {
               ['^@routes(/.*|$)'],
               ['^@layouts(/.*|$)'],
               ['^@utils(/.*|$)'],
+              ['^@assets(/.*|$)'],
               ['^@helpers(/.*|$)'],
               ['^@hooks(/.*|$)'],
               ['^@providers(/.*|$)'],
