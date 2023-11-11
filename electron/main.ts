@@ -1,5 +1,5 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
-import { app, BrowserWindow, Notification, ipcMain } from 'electron';
+import { app, BrowserWindow, ipcMain, Notification } from 'electron';
 import path from 'node:path';
 
 const NOTIFICATION_TITLE = 'Basic Notification';
@@ -36,8 +36,8 @@ function createWindow() {
   win = new BrowserWindow({
     width: 1200,
     height: 800,
-    minHeight: 600,
-    minWidth: 800,
+    minHeight: 800,
+    minWidth: 1200,
     fullscreenable: true,
     movable: true,
     resizable: true,
