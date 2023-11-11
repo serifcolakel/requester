@@ -6,6 +6,8 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { useCustomAtom } from '@store';
 import { tokenAtom } from '@store/atoms';
 
+import notification from '@lib/notification';
+
 import paths from '@routes/paths';
 
 import { useLocalStorage } from '@hooks/useLocalStorage';
@@ -35,7 +37,8 @@ export default function useHandle() {
 
       setStateToken(res.data.accessToken);
       setToken(res.data.accessToken);
-      navigate(paths.home);
+      notification('Login success. Redirecting to dashboard.', 'success');
+      navigate(paths.dashboard);
     })();
   };
 
