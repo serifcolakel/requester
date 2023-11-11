@@ -65,7 +65,7 @@ export default function useTable<T extends Record<string, unknown>>({
     meta: {
       updateData: (rowIndex, columnId, value) => {
         skipAutoResetPageIndex();
-        setData((old) =>
+        setData?.((old) =>
           old.map((row, index) => {
             if (index === rowIndex) {
               return {
@@ -80,11 +80,11 @@ export default function useTable<T extends Record<string, unknown>>({
       },
       deleteData: (rowIndex) => {
         skipAutoResetPageIndex();
-        setData((old) => old.filter((_, index) => index !== rowIndex));
+        setData?.((old) => old.filter((_, index) => index !== rowIndex));
       },
       duplicateData: (rowIndex) => {
         skipAutoResetPageIndex();
-        setData((old) => [
+        setData?.((old) => [
           ...old.slice(0, rowIndex + 1),
           old[rowIndex],
           ...old.slice(rowIndex + 1),

@@ -14,7 +14,7 @@ declare module '@tanstack/react-table' {
 export type CustomTableProps<T extends Record<string, unknown>> = {
   columns: ColumnDef<T>[];
   data: T[];
-  setData: React.Dispatch<React.SetStateAction<T[]>>;
+  setData?: React.Dispatch<React.SetStateAction<T[]>>;
   options?: TableOptions<T>;
   pageSize?: number;
 };
