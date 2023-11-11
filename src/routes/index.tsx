@@ -1,10 +1,13 @@
 import { Route, Routes as RouterRoutes } from 'react-router-dom';
 
+import CollectionPage from '@pages/collection';
+import CollectionDetail from '@pages/collection-detail';
 import EnvironmentPage from '@pages/environment';
 import EnvironmentDetail from '@pages/environment-detail';
 import Home from '@pages/home';
 import Login from '@pages/login';
 import Register from '@pages/register';
+import RequestDetail from '@pages/request-detail';
 
 import CollectionLayout from '@layouts/collection-layout';
 import DashboardLayout from '@layouts/dashboard-layout';
@@ -31,6 +34,14 @@ export default function Routes() {
         path={paths.dashboard}
       >
         <Route
+          index
+          element={
+            <Protected>
+              <Home />
+            </Protected>
+          }
+        />
+        <Route
           element={
             <Protected>
               <CollectionLayout />
@@ -38,7 +49,30 @@ export default function Routes() {
           }
           path={paths.collections}
         >
-          <Route index element={<Protected>aaa14124</Protected>} />
+          <Route
+            index
+            element={
+              <Protected>
+                <CollectionPage />
+              </Protected>
+            }
+          />
+          <Route
+            element={
+              <Protected>
+                <CollectionDetail />
+              </Protected>
+            }
+            path={paths.collectionDetail}
+          />
+          <Route
+            element={
+              <Protected>
+                <RequestDetail />
+              </Protected>
+            }
+            path={paths.requestDetail}
+          />
         </Route>
 
         <Route
