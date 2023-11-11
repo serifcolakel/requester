@@ -13,6 +13,8 @@ import { Environment } from '@services/environment/types';
 
 import useDebounce from './useDebounce';
 
+export type UseEnvironments = ReturnType<typeof useEnvironments>;
+
 /**
  * @description This hook is used to manage environments with global state
  * @returns Returns the all functionality for environments
