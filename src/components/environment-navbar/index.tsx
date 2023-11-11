@@ -16,12 +16,15 @@ import paths from '@routes/paths';
 
 import useEnvironments from '@hooks/useEnvironments';
 
+import Update from './forms/Update';
+
 export default function EnvironmentNavbar() {
   const {
     environments,
     create,
     remove,
     search,
+    update,
     setSearch,
     environment,
     loading,
@@ -63,8 +66,11 @@ export default function EnvironmentNavbar() {
               key={env.id}
               to={`${paths.environmentDetail.replace(':id', env.id)}`}
             >
-              {() => (
+              {({ isActive }) => (
                 <>
+                  {isActive ? (
+                    <Update environment={env} update={update} />
+                  ) : null}
                   <p className="w-10/12 text-sm truncate group-hover:text-gray-800">
                     {env.name}
                   </p>
