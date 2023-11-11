@@ -21,7 +21,7 @@ function CustomTable<T extends Record<string, unknown>>({
   options,
   pageSize,
 }: CustomTableProps<T>) {
-  const { table, handleExport } = useTable<T>({
+  const { table } = useTable<T>({
     columns,
     data,
     setData,
@@ -31,12 +31,6 @@ function CustomTable<T extends Record<string, unknown>>({
 
   return (
     <div className="w-full p-4 border rounded-lg">
-      <Button onClick={() => handleExport('excel')} size="sm" variant="outline">
-        Export
-      </Button>
-      <Button onClick={() => handleExport('excel')} size="sm" variant="outline">
-        Export
-      </Button>
       <div className="border rounded-md">
         <Table>
           <TableHeader>
