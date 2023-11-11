@@ -32,7 +32,7 @@ export default function InputField<TFormValues extends FieldValues>({
       control={control}
       name={name}
       render={({ field, formState: { errors } }) => (
-        <FormItem className="flex flex-col gap-y-1">
+        <FormItem className="flex flex-col w-full gap-y-1">
           {rest.label ? <FormLabel htmlFor={id}>{rest.label}</FormLabel> : null}
           <FormControl>
             <Input
