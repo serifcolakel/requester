@@ -4,6 +4,7 @@ import clsx from 'clsx';
 import { Folder, Plus } from 'lucide-react';
 
 import ListWrapper from '@components/list-wrapper';
+import MethodLabel from '@components/method-label';
 import { Input } from '@components/ui/input';
 import {
   Tooltip,
@@ -85,10 +86,11 @@ export default function CollectionNavbar() {
                             {() => (
                               <div
                                 className={clsx(
-                                  'w-10/12 text-xs truncate hover:text-gray-800'
+                                  'w-10/12 text-xs truncate hover:text-gray-800 space-x-2'
                                 )}
                               >
-                                {request.method} - {request.name}
+                                <MethodLabel method={request.method} />
+                                <span>{request.name}</span>
                               </div>
                             )}
                           </NavLink>

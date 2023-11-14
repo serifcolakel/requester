@@ -1,13 +1,11 @@
-import { z } from 'zod';
-
 import { BaseResponse } from '@services/types';
 
-export const MethodEnum = z.enum(['GET', 'POST', 'PUT', 'DELETE']);
+import { TMethod } from '@common/types';
 
 export type Request = {
   id: string;
   name: string;
-  method: keyof typeof MethodEnum;
+  method: TMethod;
 };
 
 export type Collection = {
