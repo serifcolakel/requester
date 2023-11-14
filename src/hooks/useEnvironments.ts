@@ -54,8 +54,8 @@ export default function useEnvironments() {
     refetch(true);
   };
 
-  const update = async (env: Environment) => {
-    await updateEnvironment(env.id, { name: env.name });
+  const update = async ({ id, name }: Environment) => {
+    await updateEnvironment(id, { name });
     refetch(true);
   };
 

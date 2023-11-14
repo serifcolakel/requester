@@ -48,11 +48,11 @@ export default function useRequests(environmentId: string) {
     refetch();
   };
 
-  const update = async (variable: Variable) => {
-    await updateVariable(variable.id, {
+  const update = async ({ id, name, value }: Variable) => {
+    await updateVariable(id, {
       environmentId,
-      name: variable.name,
-      value: variable.value,
+      name,
+      value,
     });
     refetch();
   };

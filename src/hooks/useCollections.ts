@@ -50,8 +50,8 @@ export default function useCollections() {
     refetch(true);
   };
 
-  const update = async (collection: Pick<Collection, 'id' | 'name'>) => {
-    await updateCollection(collection.id, { name: collection.name });
+  const update = async ({ id, name }: Pick<Collection, 'id' | 'name'>) => {
+    await updateCollection(id, { name });
     refetch(true);
   };
 
