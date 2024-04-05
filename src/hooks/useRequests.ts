@@ -2,12 +2,7 @@ import { useCallback, useEffect, useState } from 'react';
 
 import useTableColums from '@pages/environment-detail/hooks/useTableColums';
 
-import {
-  createVariable,
-  deleteVariable,
-  getAllVariables,
-  updateVariable,
-} from '@services/variable/service';
+import { createCollection } from '@services/request/service';
 import { Variable } from '@services/variable/types';
 
 import useDebounce from './useDebounce';
@@ -65,8 +60,9 @@ export default function useRequests(environmentId: string) {
   const { columns } = useTableColums({ remove, update });
 
   return {
-    variables: variables.filter((variable) =>
-      variable.name.toLowerCase().includes(filterValue.toLowerCase())
+    variables: variables.filter(
+      (variable) =>
+        variable.name.toLowerCase()?.includes(filterValue.toLowerCase())
     ),
     search,
     loading,

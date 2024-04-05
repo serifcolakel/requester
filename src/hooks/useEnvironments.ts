@@ -65,8 +65,8 @@ export default function useEnvironments() {
   };
 
   return {
-    environments: environments.filter((env) =>
-      env.name.toLowerCase().includes(filterValue.toLowerCase())
+    environments: environments.filter(
+      (env) => env.name.toLowerCase()?.includes(filterValue.toLowerCase())
     ),
     search,
     loading,

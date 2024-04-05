@@ -65,8 +65,9 @@ export default function useVariable(environmentId: string) {
   const { columns } = useTableColums({ remove, update });
 
   return {
-    variables: variables.filter((variable) =>
-      variable.name.toLowerCase().includes(filterValue.toLowerCase())
+    variables: variables.filter(
+      (variable) =>
+        variable.name.toLowerCase()?.includes(filterValue.toLowerCase())
     ),
     search,
     loading,

@@ -97,7 +97,7 @@ export default function useTable<T extends Record<string, unknown>>({
           .map(([rowId]) => rowId);
 
         return (
-          data.filter((row) => selectedRowIds.includes(row.id as string)) ?? []
+          data.filter((row) => selectedRowIds?.includes(row.id as string)) ?? []
         );
       },
     },

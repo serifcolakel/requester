@@ -10,14 +10,14 @@ import {
   TooltipTrigger,
 } from '@components/ui/tooltip';
 
-import useVariable from '@hooks/useVariable';
+import useRequests from '@hooks/useRequests';
 
 export default function RequestDetail() {
   const t = useParams<{ id: string; collectionId: string }>();
 
   window.console.log(t);
   const { variables, loading, create, columns, setSearch, search } =
-    useVariable(t.id ?? '');
+    useRequests(t.collectionId ?? '');
 
   if (loading) {
     return <div>Loading...</div>;

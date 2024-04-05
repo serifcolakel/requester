@@ -70,8 +70,9 @@ export default function useCollections() {
   );
 
   return {
-    collections: collections.filter((collection) =>
-      collection.name.toLowerCase().includes(filterValue.toLowerCase())
+    collections: collections.filter(
+      (collection) =>
+        collection.name.toLowerCase()?.includes(filterValue.toLowerCase())
     ),
     search,
     loading,
